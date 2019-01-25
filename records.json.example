@@ -1,0 +1,22 @@
+[
+  { 
+      "domain": "^hello.narvar.*", 
+      "records": [
+        { 
+          "type": "A", 
+          "address": "127.0.0.99", 
+          "ttl": 86400 
+        }
+      ] 
+  },
+  { 
+      "domain": "^cname.narvar.*", 
+      "records": [
+        { 
+          "type": "CNAME", 
+          "address": "hello.narvar.dev", 
+          "ttl": 86400 
+        }
+      ] 
+  }
+]

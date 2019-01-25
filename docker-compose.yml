@@ -1,0 +1,9 @@
+version: '3'
+services:
+  dev-dns:
+    build: .
+    user: root
+    ports:
+    - 53:53/udp
+    - 3053:3053
+    env_file: docker-vars.env

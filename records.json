@@ -1,0 +1,12 @@
+[
+  { 
+      "domain": "test.narvar.dev", 
+      "records": [
+        { 
+          "type": "A", 
+          "address": "127.0.0.1", 
+          "ttl": 1800 
+        }
+      ] 
+  }
+]

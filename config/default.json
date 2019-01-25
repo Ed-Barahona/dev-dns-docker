@@ -1,0 +1,10 @@
+{
+    "port": 3053,
+    "dns_port": 53,
+    "default_ttl": 86400,
+    "authority": { 
+        "address": "8.8.8.8", 
+        "port": 53, 
+        "type": "udp" 
+    }
+}

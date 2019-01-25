@@ -1,0 +1,76 @@
+<!doctype html>
+<html ng-app="dns">
+<head>
+	<meta charset="utf-8">
+	<title>DEV-DNS</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap-theme.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+	<style>
+		* { font-size: 14px; line-height: 2; font-weight: normal; color: #333;}
+		body { margin: 30px 30px; }
+		ul { margin: 0; padding: 0; list-style-type: none; }
+	</style>
+</head>
+<body ng-controller="Controller">
+<div class="container">
+<h3>DEV-DNS</h3>
+
+<div class="alert alert-success" role="alert" ng-click="success = null" ng-show="success">Great Success!</div>
+<div class="alert alert-danger" role="alert" ng-click="error = null" ng-show="error">Error!</div>
+
+
+<table class="table table-bordered">
+<tr ng-repeat-start="entry in entries">
+	<td colspan="3"> Host:
+		<input type="text" class="form-control" ng-model="entry.domain" placeholder="Domain e.g. blah.example.org" />
+	</td>
+</tr>
+<tr ng-repeat="record in entry.records">
+	<td>Type:
+		<select class="form-control" ng-model="record.type">
+			<option value="A">A</option>
+			<option value="CNAME">CNAME</option>
+		</select>
+	</td>
+	<td>Points To:
+		<input type="text" placeholder="Address" class="form-control" ng-model="record.address">
+	</td>
+	<td>TTL:
+		<input type="number" placeholder="TTL" class="form-control" ng-model="record.ttl">
+	</td>
+</tr>
+<tr ng-repeat-end>
+	<td colspan="3">
+		<a href ng-click="entry.records.push({})">Add Record</a>
+	</td>
+</tr>
+</table>
+
+<a href ng-click="entries.push({ records: [] })">Add Domain</a>
+
+<button class="pull-right btn btn-primary"
+	ng-click="save()">
+	SAVE CHANGES
+</button>
+</div>
+<script>
+angular.module('dns', [])
+	.controller('Controller', ['$scope', '$http', function($scope, $http) {
+		$scope.entries = [];
+		$http.get('/records').success(function(entries) {
+			$scope.entries = entries;
+		});
+		$scope.save = function() {
+			$scope.success = $scope.error = null;
+			$http.post('/records', $scope.entries).success(function() {
+				$scope.success = true;
+			}).error(function() {
+				$scope.error = true;
+			});
+		};
+	}]);
+</script>
+
+</body>
+</html>
